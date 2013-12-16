@@ -110,32 +110,56 @@ public class ArrayListTest{
 	}
 
 	@Test
-	public void thisShouldThrowExceptionForNegativePos(){
+	public void thisShouldThrowExceptionForNegativeAddPos(){
 		ArrayList list = new ArrayList();
 		try{
-			list.add(-1);
+			list.add(-1, "Special String");
 			fail("it should throw exception");
 		}
 		catch (ArrayListException e){}
 	}
 
 	@Test
-	public void thisShouldThrowExceptionForPositionThatExceedLength(){
+	public void thisShouldThrowExceptionForAddPositionThatExceedLength(){
 		ArrayList list = new ArrayList();
 		try{
-			list.add(10);
+			list.add(10, "Special String");
 			fail("it should throw exception");
 		}
 		catch (ArrayListException e){}
 	}
 
-	// test pop() method
-
 	// test remove(int position) method
-	
-	
-	
-	
+	@Test
+	public void thisShouldRemoveTheStringAtIndicatedPosition(){
+		ArrayList list = new ArrayList();
+		list.add("Test 1");
+		list.add("Test 2");
+		list.add("Test 3");
+		String removedStr = list.remove(1);
+		assertEquals("Test 2", removedStr);
+		assertEquals(2, list.size());
+	}
+
+	@Test
+	public void thisShouldThrowExceptionForNegativeRemovePos(){
+		ArrayList list = new ArrayList();
+		try{
+			list.remove(-1);
+			fail("it should throw exception");
+		}
+		catch (ArrayListException e){}
+	}
+
+	@Test
+	public void thisShouldThrowExceptionForRemovePositionThatExceedLength(){
+		ArrayList list = new ArrayList();
+		try{
+			list.remove(10);
+			fail("it should throw exception");
+		}
+		catch (ArrayListException e){}
+	}
 	
 	// test subList() method
 	

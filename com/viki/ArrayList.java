@@ -3,6 +3,7 @@ package com.viki;
 import java.lang.RuntimeException;
 import java.util.Arrays;
 import com.viki.exception.ArrayListException;
+import java.lang.System;
 
 public class ArrayList{
 
@@ -24,12 +25,8 @@ public class ArrayList{
 
 	// Return the object at postion
 	public String get(int position){
-		if (position < size && position >= 0){
-			return elementData[position];
-		}
-		else{
-			throw new ArrayListException();
-		}
+		validatePosition(position);
+		return elementData[position];
 	}
 
 	// Return the size of the list
@@ -46,29 +43,28 @@ public class ArrayList{
 
 	// Add new object at indicated position
 	public void add(int position, String newStr){
-
+		validatePosition(position);
+		ensureCapacity(size + 1);
+		System.arraycopy(elementData, position, elementData, position + 1, size - position);
+		elementData[position] = newStr;
+		size++;
 	}
 
-	// Remove object at the end of the list, also return the removed object
-	public String pop(){
-		return null;
-	}
-
-	// Remove object at indicated position, also return the removed object
-	public String remove(int position){
-		return null;
-	}
-
-	
 	// Check if the list is empty
 	public boolean isEmpty(){
 		return size == 0;
 	}
 
-	// Return the subList of this ArrayList
-	public ArrayList subList(int start, int end){
-		return new ArrayList();
-	}
+	// Remove object at indicated position, also return the removed object
+	public String remove(int position){
+		validatePosition(position);
+		String value = get(position);
+		if (size - position - 1 > 0){
+			System.arraycopy(elementData, position, elementData, position - 1, size - position - 1);		
+		}
+		elementData[--size] = null;
+		return value;
+	}	
 
 	private void ensureCapacity(int requiredCapacity){
 		int oldCapacity = elementData.length;
@@ -78,6 +74,12 @@ public class ArrayList{
 				newCapacity = requiredCapacity;
 			}
 			elementData = Arrays.copyOf(elementData, newCapacity);
+		}
+	}
+
+	private void validatePosition(int position){
+		if (position < 0 || position > size){
+			throw new ArrayListException();
 		}
 	}
 }
